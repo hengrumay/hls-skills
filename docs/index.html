@@ -17,9 +17,14 @@
   /* Databricks brand palette. Lava is kept for actions, active filters and the hero trace;
      links and body text stay navy so red reads as a signal, not wallpaper. */
   :root {
-    --lava: #FF3621;         /* primary accent: buttons, active chips, trace */
+    --lava: #FF3621;         /* primary accent: trace, underlines, outlines (no text on it) */
     --lava-hover: #FF5F46;
-    --lava-press: #EB1600;
+    /* Filled surfaces that carry white text (buttons, active chips, step numbers) use deeper
+       lava so the label clears WCAG AA 4.5:1: #EB1600 4.52, #D31F0B 5.29, #BD1C08 6.30. */
+    --lava-fill: #EB1600;
+    --lava-fill-hover: #D31F0B;
+    --lava-fill-press: #BD1C08;
+    --lava-text: #EB1600;    /* lava used as text colour: 4.52:1 on white */
     --lava-tint: #FFEBE7;    /* derived: 10% lava on white, for soft highlights */
     --on-lava: #FFFFFF;
     --navy: #1B3139;
@@ -56,7 +61,7 @@
     :root:not([data-theme="light"]) {
       --page: #0B2026; --paper: #1B3139; --ink: #F9F7F4; --ink-soft: #B3C0C4;
       --rule: #2C4751; --rule-strong: #46636D; --fill: #0B2026; --lava-tint: #3A2B2C;
-      --foot-bg: #0B2026; --foot-ink: #B3C0C4; --focus: #FF5F46;
+      --foot-bg: #0B2026; --foot-ink: #B3C0C4; --focus: #FF5F46; --lava-text: #FF6E57;
       --t-tx: #FF5F46; --t-fm: #D3DBDD; --t-rwe: #FFB3A5; --t-gov: #7F979E; --t-pp: #D23A25; --t-ev: #B8AE9C;
       color-scheme: dark;
     }
@@ -64,7 +69,7 @@
   :root[data-theme="dark"] {
     --page: #0B2026; --paper: #1B3139; --ink: #F9F7F4; --ink-soft: #B3C0C4;
     --rule: #2C4751; --rule-strong: #46636D; --fill: #0B2026; --lava-tint: #3A2B2C;
-    --foot-bg: #0B2026; --foot-ink: #B3C0C4; --focus: #FF5F46;
+    --foot-bg: #0B2026; --foot-ink: #B3C0C4; --focus: #FF5F46; --lava-text: #FF6E57;
     --t-tx: #FF5F46; --t-fm: #D3DBDD; --t-rwe: #FFB3A5; --t-gov: #7F979E; --t-pp: #D23A25; --t-ev: #B8AE9C;
     color-scheme: dark;
   }
@@ -145,9 +150,9 @@
     font-family: var(--serif); font-weight: 700; font-size: 1.1rem;
     width: 34px; height: 34px; border-radius: 50%;
     display: grid; place-items: center; margin-bottom: 14px;
-    background: var(--lava); color: var(--on-lava);
+    background: var(--lava-fill); color: var(--on-lava);
   }
-  .step.optional::before { background: transparent; color: var(--lava-press); border: 1.5px dashed var(--lava); }
+  .step.optional::before { background: transparent; color: var(--lava-text); border: 1.5px dashed var(--lava); }
   .step h3 { margin: 0 0 6px; font-size: 1.05rem; line-height: 1.35; }
   .step p { margin: 0 0 14px; color: var(--ink-soft); font-size: .95rem; }
   .step .opt { font-size: .8rem; color: var(--ink-soft); font-weight: 600; margin-left: 6px; }
@@ -156,7 +161,7 @@
     background: var(--fill); padding: 1px 5px; border-radius: 4px; overflow-wrap: anywhere;
   }
   .step a.more { margin-top: auto; font-size: .9rem; font-weight: 600; text-decoration: underline; text-decoration-color: var(--lava); text-decoration-thickness: 2px; }
-  .step a.more:hover { color: var(--lava-press); }
+  .step a.more:hover { color: var(--lava-text); }
 
   /* ---------- explore: filter bar ---------- */
   .filters {
@@ -173,12 +178,13 @@
     display: inline-flex; align-items: center; gap: 7px;
   }
   .chip:hover { border-color: var(--lava-hover); }
-  .chip[aria-pressed="true"] { background: var(--lava); border-color: var(--lava); color: var(--on-lava); font-weight: 600; }
-  .chip[aria-pressed="true"]:hover { background: var(--lava-hover); border-color: var(--lava-hover); }
-  .chip:active { background: var(--lava-press); border-color: var(--lava-press); color: var(--on-lava); }
+  .chip[aria-pressed="true"] { background: var(--lava-fill); border-color: var(--lava-fill); color: var(--on-lava); font-weight: 600; }
+  .chip[aria-pressed="true"]:hover { background: var(--lava-fill-hover); border-color: var(--lava-fill-hover); }
+  .chip:active { background: var(--lava-fill-press); border-color: var(--lava-fill-press); color: var(--on-lava); }
   .chip .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--c, var(--ink-soft)); }
   .chip[aria-pressed="true"] .dot { background: var(--on-lava); }
   .chip .n { font-size: .78rem; opacity: .7; }
+  .chip[aria-pressed="true"] .n, .chip:active .n { opacity: 1; }  /* faded white on lava fails AA */
 
   .result-line { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin: 0 0 14px; font-size: .92rem; color: var(--ink-soft); }
   .reset { font: inherit; font-size: .9rem; background: none; border: 0; color: var(--ink); cursor: pointer; padding: 2px 0; text-decoration: underline; text-decoration-color: var(--lava); text-underline-offset: 3px; }
@@ -209,9 +215,9 @@
   .empty[hidden] { display: none; }
   .empty h3 { margin: 0 0 6px; font-family: var(--serif); font-size: 1.25rem; }
   .empty p { margin: 0 auto 16px; color: var(--ink-soft); max-width: 48ch; }
-  .btn { font: inherit; font-size: .92rem; font-weight: 600; cursor: pointer; padding: 8px 16px; border-radius: var(--r-pill); border: 1px solid var(--lava); background: var(--lava); color: var(--on-lava); }
-  .btn:hover { background: var(--lava-hover); border-color: var(--lava-hover); }
-  .btn:active { background: var(--lava-press); border-color: var(--lava-press); }
+  .btn { font: inherit; font-size: .92rem; font-weight: 600; cursor: pointer; padding: 8px 16px; border-radius: var(--r-pill); border: 1px solid var(--lava-fill); background: var(--lava-fill); color: var(--on-lava); }
+  .btn:hover { background: var(--lava-fill-hover); border-color: var(--lava-fill-hover); }
+  .btn:active { background: var(--lava-fill-press); border-color: var(--lava-fill-press); }
 
   footer { background: var(--foot-bg); border-top: 1px solid var(--rule); margin-top: 40px; padding: 28px 0 40px; font-size: .85rem; color: var(--foot-ink); }
   footer a { color: inherit; }
