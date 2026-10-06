@@ -26,10 +26,14 @@ only; no changes to `skills/`.
 ### Design
 - Databricks brand palette (Lava, Navy, Oat) and DM Sans / DM Mono typography.
 - Terminology is "Genie Code skills" throughout.
-- WCAG-AA color contrast; external links open in a new tab with an
-  accessibility cue.
-- Dark/light theme choice persists across reloads (stored in `localStorage`),
-  falling back to the operating-system preference on first visit.
+- WCAG-AA color contrast for text, plus a 3:1 minimum for interactive and
+  graphical elements (chip outlines, topic accents). External links open in a
+  new tab with an accessibility cue.
+- Dark/light theme persists across reloads (stored in `localStorage`), with a
+  single source of truth — `data-theme` on `<html>`, applied before first paint
+  — driving both the CSS and the toggle script. Falls back to the
+  operating-system preference on first visit and follows live OS changes until
+  the visitor makes an explicit choice.
 
 ### Notes
 - Go-live is a maintainer action: in Settings → Pages, flip the publishing
