@@ -12,14 +12,25 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>
-  // Apply a saved theme before first paint so there is no flash of the wrong one. With nothing
-  // saved, data-theme stays unset and the CSS follows the system preference.
-  try { const t = localStorage.getItem("vs-theme"); if (t === "dark" || t === "light") document.documentElement.dataset.theme = t; } catch (e) {}
+  // The one place that decides the theme. It always sets data-theme on <html>, which is all the CSS
+  // and the toggle read. An explicit choice is saved under localStorage "vs-theme" and wins; with
+  // none saved, the system preference is used. Runs here, before first paint, so nothing flashes.
+  function applyTheme(choice) {
+    let saved = null;
+    try {
+      if (choice) localStorage.setItem("vs-theme", choice);
+      else saved = localStorage.getItem("vs-theme");
+    } catch (e) {}
+    document.documentElement.dataset.theme = choice
+      || (saved === "dark" || saved === "light" ? saved : null)
+      || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  }
+  applyTheme();
 </script>
 <title>Vital Skills</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&amp;family=DM+Sans:wght@400;500;600;700&amp;display=swap">
 <link rel="icon" type="image/png" href="data:image/png;base64,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">
 <style>
   /* Databricks brand palette. Lava is kept for actions, active filters and the start of the hero trace;
@@ -47,19 +58,20 @@
     --ink: #1B3139;
     --ink-soft: #4F636A;     /* derived: navy lightened for secondary text */
     --rule: #EEEDE9;         /* neutral beige: card borders, subtle fills */
-    --rule-strong: #D9D6CF;  /* derived: beige darkened so chip outlines stay visible */
+    --rule-strong: #8F897D;  /* derived: warm grey; chip outlines hold 3.48:1 on white (WCAG 3:1) */
     --fill: #EEEDE9;
     --foot-bg: #1B3139;
     --foot-ink: #D3DBDD;
     --focus: #1B3139;
 
-    /* topic accents: lava and navy, plus restrained tints/shades of each and of oat */
+    /* topic accents: lava and navy, plus restrained tints/shades of each and of oat. Each holds at
+       least 3:1 on both the white card and the oat page, in both themes (WCAG 1.4.11). */
     --t-tx: #FF3621;   /* lava */
     --t-fm: #1B3139;   /* navy */
-    --t-rwe: #FF9E8C;  /* lava tint */
+    --t-rwe: #E0644D;  /* lava, softened to coral */
     --t-gov: #6A8087;  /* navy tint */
     --t-pp: #A3200F;   /* lava shade */
-    --t-ev: #B8AE9C;   /* oat shade */
+    --t-ev: #8F8574;   /* oat shade */
 
     --sans: "DM Sans", "Avenir Next", "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
     --mono: "DM Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
@@ -69,20 +81,12 @@
     --r-pill: 999px;
     color-scheme: light;
   }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --page: #0B2026; --paper: #1B3139; --ink: #F9F7F4; --ink-soft: #B3C0C4; --trace-blue: #439AE2;
-      --rule: #2C4751; --rule-strong: #46636D; --fill: #0B2026;
-      --foot-bg: #0B2026; --foot-ink: #B3C0C4; --focus: #FF5F46; --lava-text: #FF6E57;
-      --t-tx: #FF5F46; --t-fm: #D3DBDD; --t-rwe: #FFB3A5; --t-gov: #7F979E; --t-pp: #D23A25; --t-ev: #B8AE9C;
-      color-scheme: dark;
-    }
-  }
+  /* Dark theme. Only data-theme selects it; the head script resolves the system preference. */
   :root[data-theme="dark"] {
     --page: #0B2026; --paper: #1B3139; --ink: #F9F7F4; --ink-soft: #B3C0C4; --trace-blue: #439AE2;
-    --rule: #2C4751; --rule-strong: #46636D; --fill: #0B2026;
+    --rule: #2C4751; --rule-strong: #6E8A93; --fill: #0B2026;
     --foot-bg: #0B2026; --foot-ink: #B3C0C4; --focus: #FF5F46; --lava-text: #FF6E57;
-    --t-tx: #FF5F46; --t-fm: #D3DBDD; --t-rwe: #FFB3A5; --t-gov: #7F979E; --t-pp: #D23A25; --t-ev: #B8AE9C;
+    --t-tx: #FF5F46; --t-fm: #D3DBDD; --t-rwe: #FFB3A5; --t-gov: #7F979E; --t-pp: #E04A33; --t-ev: #B8AE9C;
     color-scheme: dark;
   }
 
@@ -507,13 +511,10 @@
   resetTop.addEventListener("click", resetAll);
   document.getElementById("resetEmpty").addEventListener("click", resetAll);
 
-  // Theme toggle (light / dark). data-theme on <html> is the single source of truth: set early by the
-  // head script from localStorage "vs-theme", unset (system preference) on a first visit.
+  // Theme toggle (light / dark). It only reads data-theme on <html>; applyTheme() in <head> sets it.
   const root = document.documentElement;
   const btn = document.getElementById("themeBtn");
-  const isDark = () => root.dataset.theme
-    ? root.dataset.theme === "dark"
-    : matchMedia("(prefers-color-scheme: dark)").matches;
+  const isDark = () => root.dataset.theme === "dark";
   // Moon offers dark mode while the page is light; sun offers light mode while it is dark.
   const syncBtn = () => {
     const dark = isDark();
@@ -521,12 +522,9 @@
     btn.querySelector(".i-moon").toggleAttribute("hidden", dark);
     btn.querySelector(".i-sun").toggleAttribute("hidden", !dark);
   };
-  btn.addEventListener("click", () => {
-    root.dataset.theme = isDark() ? "light" : "dark";
-    try { localStorage.setItem("vs-theme", root.dataset.theme); } catch (e) {}
-    syncBtn();
-  });
-  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", syncBtn);
+  btn.addEventListener("click", () => { applyTheme(isDark() ? "light" : "dark"); syncBtn(); });
+  // Follow live system changes; applyTheme() keeps a saved choice, so this only matters before a toggle.
+  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { applyTheme(); syncBtn(); });
   syncBtn();
 
   const video = document.getElementById("heroVideo");
