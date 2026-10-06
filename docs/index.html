@@ -132,10 +132,12 @@
   }
   .trace { display: block; width: 100%; max-width: 760px; height: auto; aspect-ratio: 760 / 56; margin: 18px 0 20px; overflow: visible; }
   .trace path { fill: none; stroke: url(#lineGrad); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
-  /* The main line draws left to right; the second helix strand, the base-pair rungs and the
-     atoms join as the line passes them. pathLength="1" keeps the dash maths length-independent. */
+  /* The main line draws left to right; the base-pair rungs and the atoms join as the line passes
+     them. The blue second helix strand starts early and slowly fades up to a soft .55 opacity, so it
+     reads as an undertone already in place while the rest finishes. pathLength="1" keeps the dash
+     maths length-independent. */
   .trace .t-main { stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 2.6s .2s cubic-bezier(.45,.1,.3,1) forwards; }
-  .trace .t-strand { stroke: var(--trace-blue); stroke-width: 1.8; stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw .9s 1.05s ease-out forwards; }
+  .trace .t-strand { stroke: var(--trace-blue); stroke-width: 1.8; stroke-dasharray: 1; stroke-dashoffset: 1; opacity: 0; --o: .55; animation: draw 1.6s .45s ease-in-out forwards, fade 2s .45s ease-in-out forwards; }
   .trace .t-rungs { stroke: var(--trace-purple); stroke-width: 1.6; opacity: 0; animation: fade .5s 1.6s ease-out forwards; }
   .trace .t-atoms circle { fill: var(--page); stroke: var(--trace-blue); stroke-width: 1.8; opacity: 0; animation: fade .4s 2.45s ease-out forwards; }
   @keyframes draw { to { stroke-dashoffset: 0; } }
@@ -247,6 +249,7 @@
   @media (prefers-reduced-motion: reduce) {
     /* Same specificity as the animated rules above, so these win: show the finished line. */
     .trace .t-main, .trace .t-strand, .trace .t-rungs, .trace .t-atoms circle { animation: none; stroke-dashoffset: 0; }
+    .trace .t-strand { opacity: .55; }
     .trace .t-rungs { opacity: .7; }
     .trace .t-atoms circle { opacity: 1; }
   }
