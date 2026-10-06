@@ -2,15 +2,19 @@
 <!--
   Vital Skills — skills hub landing page, served by GitHub Pages from docs/ as a static site
   (docs/.nojekyll turns Jekyll off). Every local ref is relative so it works under /hls-skills/.
-  Databricks brand colors sampled from databricks.com, 2026-10-06.
-  Self-contained: inline CSS + vanilla JS. The logo and the video still are embedded as data URIs,
-  so they render however the file is opened; the only separate file is vitalskills.mp4 next to this page.
+  Databricks brand colors and type (DM Sans + DM Mono) sampled from databricks.com, 2026-10-06.
+  Inline CSS + vanilla JS. The logo and the video still are embedded as data URIs; the only separate
+  file is vitalskills.mp4 next to this page. One deliberate external dependency: the two typefaces
+  load from Google Fonts, with system fonts as the fallback if that request fails.
 -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Vital Skills</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;700&display=swap">
 <link rel="icon" type="image/png" href="data:image/png;base64,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">
 <style>
   /* Databricks brand palette. Lava is kept for actions, active filters and the hero trace;
@@ -47,8 +51,8 @@
     --t-pp: #A3200F;   /* lava shade */
     --t-ev: #B8AE9C;   /* oat shade */
 
-    --serif: "Iowan Old Style", "Charter", "Bitstream Charter", "Sitka Text", Cambria, Georgia, serif;
-    --sans: "Avenir Next", "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+    --sans: "DM Sans", "Avenir Next", "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+    --mono: "DM Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 
     --r-lg: 14px;
     --r-sm: 6px;
@@ -104,7 +108,7 @@
   .icon-btn svg { width: 20px; height: 20px; display: block; }
   .icon-btn [hidden] { display: none; }
 
-  /* ---------- hero: wordmark + vital-sign trace, with the video tour alongside ---------- */
+  /* ---------- hero: wordmark + signal trace, with the video tour alongside ---------- */
   .hero { padding: 48px 0 40px; }
   .hero-grid { display: grid; gap: 32px; align-items: center; }
   @media (min-width: 900px) { .hero-grid { grid-template-columns: 1.15fr 1fr; gap: 48px; } }
@@ -115,25 +119,30 @@
   }
   .hero-media figcaption { margin-top: 8px; font-size: .85rem; color: var(--ink-soft); }
   .wordmark {
-    font-family: var(--serif);
+    font-family: var(--sans);
     font-weight: 700;
-    font-size: clamp(2.6rem, 7vw, 4.8rem);
-    line-height: 1;
-    letter-spacing: -0.02em;
+    font-size: clamp(2.8rem, 7.5vw, 5.2rem);
+    line-height: .95;
+    letter-spacing: -0.045em;
     margin: 0;
   }
-  .trace { display: block; width: 100%; max-width: 760px; height: 56px; margin: 18px 0 20px; color: var(--lava); }
-  .trace path {
-    fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round;
-    stroke-dasharray: 1200; stroke-dashoffset: 1200; animation: draw 1.8s .2s ease-out forwards;
-  }
+  .trace { display: block; width: 100%; max-width: 760px; height: auto; aspect-ratio: 760 / 56; margin: 18px 0 20px; color: var(--lava); overflow: visible; }
+  .trace path { fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+  /* The main line draws left to right; the second helix strand, the base-pair rungs and the
+     atoms join as the line passes them. pathLength="1" keeps the dash maths length-independent. */
+  .trace .t-main { stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 2.6s .2s cubic-bezier(.45,.1,.3,1) forwards; }
+  .trace .t-strand { stroke-width: 1.6; opacity: .55; stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw .9s 1.05s ease-out forwards; }
+  .trace .t-rungs { stroke-width: 1.4; opacity: 0; animation: fade .5s 1.6s ease-out forwards; }
+  .trace .t-atoms circle { fill: var(--page); stroke: currentColor; stroke-width: 1.8; opacity: 0; animation: fade .4s 2.45s ease-out forwards; }
   @keyframes draw { to { stroke-dashoffset: 0; } }
+  @keyframes fade { to { opacity: var(--o, 1); } }
+  .trace .t-rungs { --o: .45; }
   .tagline { font-size: clamp(1.1rem, 2.4vw, 1.35rem); color: var(--ink-soft); max-width: 46ch; margin: 0; }
   .hero-note { margin: 14px 0 0; font-size: .92rem; color: var(--ink-soft); max-width: 62ch; }
 
   /* ---------- section heads ---------- */
   section { padding: 32px 0; }
-  h2 { font-family: var(--serif); font-size: 1.75rem; line-height: 1.2; margin: 0 0 6px; letter-spacing: -0.01em; }
+  h2 { font-weight: 500; font-size: 1.6rem; line-height: 1.2; margin: 0 0 6px; letter-spacing: -0.015em; }
   .section-lede { margin: 0 0 24px; color: var(--ink-soft); max-width: 62ch; }
 
   /* ---------- get started: a real sequence, so numbered ---------- */
@@ -146,7 +155,7 @@
   }
   .step::before {
     content: counter(step);
-    font-family: var(--serif); font-weight: 700; font-size: 1.1rem;
+    font-family: var(--sans); font-weight: 700; font-size: 1.1rem;
     width: 34px; height: 34px; border-radius: 50%;
     display: grid; place-items: center; margin-bottom: 14px;
     background: var(--lava-fill); color: var(--on-lava);
@@ -156,7 +165,7 @@
   .step p { margin: 0 0 14px; color: var(--ink-soft); font-size: .95rem; }
   .step .opt { font-size: .8rem; color: var(--ink-soft); font-weight: 600; margin-left: 6px; }
   code {
-    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: .85em;
+    font-family: var(--mono); font-size: .85em;
     background: var(--fill); padding: 1px 5px; border-radius: 4px; overflow-wrap: anywhere;
   }
   .step a.more { margin-top: auto; font-size: .9rem; font-weight: 600; text-decoration: underline; text-decoration-color: var(--lava); text-decoration-thickness: 2px; }
@@ -198,7 +207,7 @@
   }
   .grid[hidden], .card[hidden] { display: none; }
   .card-body { padding: 18px 20px 14px; flex: 1; }
-  .card h3 { margin: 0 0 8px; font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 1rem; font-weight: 600; overflow-wrap: anywhere; }
+  .card h3 { margin: 0 0 8px; font-family: var(--mono); font-size: 1rem; font-weight: 500; overflow-wrap: anywhere; }
   .card p { margin: 0; color: var(--ink-soft); font-size: .95rem; }
   .labels { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
   .label { font-size: .78rem; padding: 2px 9px; border-radius: var(--r-pill); background: var(--page); border: 1px solid var(--rule); color: var(--ink-soft); display: inline-flex; align-items: center; gap: 6px; }
@@ -212,7 +221,7 @@
     text-align: center; background: var(--paper);
   }
   .empty[hidden] { display: none; }
-  .empty h3 { margin: 0 0 6px; font-family: var(--serif); font-size: 1.25rem; }
+  .empty h3 { margin: 0 0 6px; font-weight: 500; font-size: 1.25rem; }
   .empty p { margin: 0 auto 16px; color: var(--ink-soft); max-width: 48ch; }
   .btn { font: inherit; font-size: .92rem; font-weight: 600; cursor: pointer; padding: 8px 16px; border-radius: var(--r-pill); border: 1px solid var(--lava-fill); background: var(--lava-fill); color: var(--on-lava); }
   .btn:hover { background: var(--lava-fill-hover); border-color: var(--lava-fill-hover); }
@@ -231,7 +240,10 @@
   .foot-logo { width: 28px; height: 28px; display: block; object-fit: contain; }
 
   @media (prefers-reduced-motion: reduce) {
-    .trace path { animation: none; stroke-dashoffset: 0; }
+    /* Same specificity as the animated rules above, so these win: show the finished line. */
+    .trace .t-main, .trace .t-strand, .trace .t-rungs, .trace .t-atoms circle { animation: none; stroke-dashoffset: 0; }
+    .trace .t-rungs { opacity: .45; }
+    .trace .t-atoms circle { opacity: 1; }
   }
 </style>
 </head>
@@ -261,8 +273,12 @@
     <div class="wrap hero-grid">
       <div class="hero-text">
         <h1 class="wordmark">Vital Skills</h1>
-        <svg class="trace" viewBox="0 0 760 56" preserveAspectRatio="none" aria-hidden="true">
-          <path d="M0 34 H150 l10 -6 l10 6 H230 l8 4 l12 -34 l12 48 l10 -22 l8 4 H360 l12 -8 l14 8 H480 l8 4 l12 -34 l12 48 l10 -22 l8 4 H640 l12 -8 l14 8 H760"/>
+        <svg class="trace" viewBox="0 0 760 56" aria-hidden="true" focusable="false">
+          <!-- One signal line: heartbeat blip, DNA double helix, decaying waveform, small molecule. -->
+          <path class="t-main" pathLength="1" d="M0 30 L96 30 L104 26 L112 30 L128 30 L134 33 L143 7 L152 43 L159 26 L165 30 L179 30 L189 24 L199 30 L239 30 L242 27.5 L245 25 L248 22.8 L251 20.8 L254 19.2 L257 18 L260 17.2 L263 17 L266 17.2 L269 18 L272 19.2 L275 20.8 L278 22.8 L281 25 L284 27.5 L287 30 L290 32.5 L293 35 L296 37.2 L299 39.2 L302 40.8 L305 42 L308 42.8 L311 43 L314 42.8 L317 42 L320 40.8 L323 39.2 L326 37.2 L329 35 L332 32.5 L335 30 L338 27.5 L341 25 L344 22.8 L347 20.8 L350 19.2 L353 18 L356 17.2 L359 17 L362 17.2 L365 18 L368 19.2 L371 20.8 L374 22.8 L377 25 L380 27.5 L383 30 L386 32.5 L389 35 L392 37.2 L395 39.2 L398 40.8 L401 42 L404 42.8 L407 43 L410 42.8 L413 42 L416 40.8 L419 39.2 L422 37.2 L425 35 L428 32.5 L431 30 L467 30 L467 30 L470 24.8 L473 21.1 L476 19.6 L479 20.4 L482 23.2 L485 27.1 L488 31.4 L491 35 L494 37.3 L497 37.8 L500 36.7 L503 34.2 L506 31.1 L509 28 L512 25.5 L515 24.3 L518 24.3 L521 25.5 L524 27.6 L527 30 L530 32.2 L533 33.8 L536 34.4 L539 34.1 L542 32.9 L545 31.2 L548 29.4 L551 27.9 L554 26.9 L557 26.7 L560 27.2 L563 28.2 L566 29.5 L569 30.9 L572 31.9 L575 32.4 L578 32.4 L581 31.9 L584 31 L587 30 L590 29.1 L593 28.4 L596 28.1 L599 28.3 L602 28.8 L605 29.5 L608 30.3 L611 30.9 L614 31.3 L617 31.4 L620 31.2 L623 30.8 L626 30.2 L651 30 L664 30 L680 19 L696 30 L760 30"/>
+          <path class="t-strand" pathLength="1" d="M239 30 L242 32.5 L245 35 L248 37.2 L251 39.2 L254 40.8 L257 42 L260 42.8 L263 43 L266 42.8 L269 42 L272 40.8 L275 39.2 L278 37.2 L281 35 L284 32.5 L287 30 L290 27.5 L293 25 L296 22.8 L299 20.8 L302 19.2 L305 18 L308 17.2 L311 17 L314 17.2 L317 18 L320 19.2 L323 20.8 L326 22.8 L329 25 L332 27.5 L335 30 L338 32.5 L341 35 L344 37.2 L347 39.2 L350 40.8 L353 42 L356 42.8 L359 43 L362 42.8 L365 42 L368 40.8 L371 39.2 L374 37.2 L377 35 L380 32.5 L383 30 L386 27.5 L389 25 L392 22.8 L395 20.8 L398 19.2 L401 18 L404 17.2 L407 17 L410 17.2 L413 18 L416 19.2 L419 20.8 L422 22.8 L425 25 L428 27.5 L431 30"/>
+          <path class="t-rungs" d="M263 19.9 V40.1 M311 40.1 V19.9 M359 19.9 V40.1 M407 40.1 V19.9"/>
+          <g class="t-atoms"><circle cx="664" cy="30" r="3.6"/><circle cx="680" cy="19" r="3.6"/><circle cx="696" cy="30" r="3.6"/></g>
         </svg>
         <p class="tagline">Genie Code skills for Health &amp; Life Sciences workflows.</p>
         <p class="hero-note">Each skill teaches Genie Code one end-to-end job on Databricks, from single-cell analysis to patient cohorts to de-identification.</p>
