@@ -345,6 +345,7 @@
   const TYPES = [GENIE_SKILL, "Guide", "Tutorial", "Example"];
 
   const REPO_TREE = "https://github.com/databricks-industry-solutions/hls-skills/tree/dev/";
+  const REPO_BLOB = "https://github.com/databricks-industry-solutions/hls-skills/blob/dev/";
 
   const SKILLS = [
     { name: "sc-rnaseq", topic: "Transcriptomics", type: "Genie Code skill",
@@ -413,7 +414,7 @@
         </div>
         <div class="card-foot">
           <a href="${REPO_TREE}${path}" target="_blank" rel="noopener noreferrer" title="${path}" aria-label="View code for ${s.name} (opens in new tab)">View code →</a>
-          <a href="#" title="${path}SKILL.md" aria-label="Use the ${s.name} skill">Use the skill →</a>
+          <a href="${REPO_BLOB}${path}SKILL.md" target="_blank" rel="noopener noreferrer" title="${path}SKILL.md" aria-label="Use the ${s.name} skill (opens in new tab)">Use the skill →</a>
         </div>`;
       grid.appendChild(li);
     });
