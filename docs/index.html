@@ -239,8 +239,8 @@
     </a>
     <nav class="topnav" aria-label="Main">
       <a href="#explore" aria-current="page">Skills</a>
-      <a href="https://github.com/databricks-industry-solutions/hls-skills/blob/dev/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer">Contribute</a>
-      <a href="https://github.com/databricks-industry-solutions/hls-skills" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="https://github.com/databricks-industry-solutions/hls-skills/blob/dev/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer" aria-label="Contribute (opens in new tab)">Contribute</a>
+      <a href="https://github.com/databricks-industry-solutions/hls-skills" target="_blank" rel="noopener noreferrer" aria-label="GitHub (opens in new tab)">GitHub</a>
     </nav>
     <button class="theme-btn" type="button" id="themeBtn" aria-label="Switch color theme">Dark</button>
   </div>
@@ -278,12 +278,12 @@
         <li class="step">
           <h3>Clone the repo into Databricks</h3>
           <p>Add the repo as a Git folder in your workspace, then open Genie Code Customizations and add the <code>skills/</code> folder so Genie Code can find every skill.</p>
-          <a class="more" href="https://github.com/databricks-industry-solutions/hls-skills/blob/dev/README.md#setup" target="_blank" rel="noopener noreferrer">Set up the Git folder →</a>
+          <a class="more" href="https://github.com/databricks-industry-solutions/hls-skills/blob/dev/README.md#setup" target="_blank" rel="noopener noreferrer" aria-label="Set up the Git folder (opens in new tab)">Set up the Git folder →</a>
         </li>
         <li class="step optional">
           <h3>Sync skills to Unity Gateway <span class="opt">Optional</span></h3>
           <p>To share skills across a team, register them with <code>sync_skills_git2unity.py</code>. Skip this if you're trying skills on your own.</p>
-          <a class="more" href="https://docs.databricks.com/aws/en/agents/uc-skills/" target="_blank" rel="noopener noreferrer">Read the sync guide →</a>
+          <a class="more" href="https://docs.databricks.com/aws/en/agents/uc-skills/" target="_blank" rel="noopener noreferrer" aria-label="Read the sync guide (opens in new tab)">Read the sync guide →</a>
         </li>
         <li class="step">
           <h3>Run your first skill</h3>
@@ -326,7 +326,7 @@
 
 <footer>
   <div class="wrap">
-    <p>Vital Skills is part of <a href="https://github.com/databricks-industry-solutions/hls-skills" target="_blank" rel="noopener noreferrer">databricks-industry-solutions/hls-skills</a>.</p>
+    <p>Vital Skills is part of <a href="https://github.com/databricks-industry-solutions/hls-skills" target="_blank" rel="noopener noreferrer" aria-label="databricks-industry-solutions/hls-skills (opens in new tab)">databricks-industry-solutions/hls-skills</a>.</p>
     <p>Layout adapted from github/awesome-copilot (MIT).</p>
   </div>
 </footer>
@@ -412,7 +412,7 @@
           </div>
         </div>
         <div class="card-foot">
-          <a href="${REPO_TREE}${path}" target="_blank" rel="noopener noreferrer" title="${path}" aria-label="View code for ${s.name}">View code →</a>
+          <a href="${REPO_TREE}${path}" target="_blank" rel="noopener noreferrer" title="${path}" aria-label="View code for ${s.name} (opens in new tab)">View code →</a>
           <a href="#" title="${path}SKILL.md" aria-label="Use the ${s.name} skill">Use the skill →</a>
         </div>`;
       grid.appendChild(li);
