@@ -39,3 +39,6 @@ only; no changes to `skills/`.
 - Go-live is a maintainer action: in Settings → Pages, flip the publishing
   folder from `/ (root)` to `/docs`. Reversible and non-disruptive. `baseurl`
   is `/hls-skills`.
+- JavaScript is required: the skill cards are rendered client-side, and without
+  JavaScript the page renders in light mode (the single-source-of-truth theme is
+  set by script). This is acceptable because the catalog itself needs JavaScript.
