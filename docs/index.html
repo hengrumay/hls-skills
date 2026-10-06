@@ -11,6 +11,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+  // Apply a saved theme before first paint so there is no flash of the wrong one. With nothing
+  // saved, data-theme stays unset and the CSS follows the system preference.
+  try { const t = localStorage.getItem("vs-theme"); if (t === "dark" || t === "light") document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
 <title>Vital Skills</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -502,7 +507,8 @@
   resetTop.addEventListener("click", resetAll);
   document.getElementById("resetEmpty").addEventListener("click", resetAll);
 
-  // Theme toggle (light / dark). Starts from the system preference.
+  // Theme toggle (light / dark). data-theme on <html> is the single source of truth: set early by the
+  // head script from localStorage "vs-theme", unset (system preference) on a first visit.
   const root = document.documentElement;
   const btn = document.getElementById("themeBtn");
   const isDark = () => root.dataset.theme
@@ -515,7 +521,11 @@
     btn.querySelector(".i-moon").toggleAttribute("hidden", dark);
     btn.querySelector(".i-sun").toggleAttribute("hidden", !dark);
   };
-  btn.addEventListener("click", () => { root.dataset.theme = isDark() ? "light" : "dark"; syncBtn(); });
+  btn.addEventListener("click", () => {
+    root.dataset.theme = isDark() ? "light" : "dark";
+    try { localStorage.setItem("vs-theme", root.dataset.theme); } catch (e) {}
+    syncBtn();
+  });
   matchMedia("(prefers-color-scheme: dark)").addEventListener("change", syncBtn);
   syncBtn();
 
